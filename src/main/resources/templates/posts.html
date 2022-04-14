@@ -25,12 +25,16 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Название</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Дата создания</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="post: ${posts}">
                 <td th:text="${post.id}" />
                 <td th:text="${post.name}" />
+                <td th:text="${post.description}" />
+                <td th:text="${{post.created}}" />
             </tr>
             </tbody>
         </table>

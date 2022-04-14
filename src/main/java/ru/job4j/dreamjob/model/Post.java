@@ -1,5 +1,7 @@
 package ru.job4j.dreamjob.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -7,11 +9,18 @@ public class Post {
     private int id;
     private String name;
     private String description;
+    @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm")
     private LocalDateTime created;
 
-    public Post(int id, String name) {
+    public Post(int id, String name, String description) {
         this.id = id;
         this.name = name;
+        this.description = description;
+    }
+
+    public Post(int id, String name, String description, LocalDateTime created) {
+        this(id, name, description);
+        this.created = created;
     }
 
     public String getDescription() {
