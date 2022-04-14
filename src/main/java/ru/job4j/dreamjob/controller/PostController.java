@@ -16,4 +16,10 @@ public class PostController {
         model.addAttribute("posts", store.findAll());
         return "posts";
     }
+
+    @GetMapping("/formAddPost")
+    public String addPost(Model model) {
+        model.addAttribute("post", new Post(0, "Заполните поле", "Введите описание"));
+        return "addPost";
+    }
 }
