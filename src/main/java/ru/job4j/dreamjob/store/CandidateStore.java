@@ -6,9 +6,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CandidateStore implements Store<Candidate> {
     private static final CandidateStore INST = new CandidateStore();
+    private static final AtomicInteger CANDIDATE_ID = new AtomicInteger(3);
 
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
@@ -25,17 +27,19 @@ public class CandidateStore implements Store<Candidate> {
     }
 
     public void add(Candidate candidate) {
-
+        candidate.setId(CANDIDATE_ID.incrementAndGet());
+        candidate.setCreated(LocalDateTime.now());
+        candidates.put(candidate.getId(), candidate);
     }
 
     @Override
     public Candidate findById(int id) {
-        return null;
+        return candidates.get(id);
     }
 
     @Override
-    public void update(Candidate entity) {
-
+    public void update(Candidate candidate) {
+        candidates.replace(candidate.getId(), candidate);
     }
 
     @Override
