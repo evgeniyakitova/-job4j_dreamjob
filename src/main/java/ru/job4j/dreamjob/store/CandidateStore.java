@@ -29,6 +29,16 @@ public class CandidateStore implements Store<Candidate> {
     }
 
     @Override
+    public Candidate findById(int id) {
+        return null;
+    }
+
+    @Override
+    public void update(Candidate entity) {
+
+    }
+
+    @Override
     public Collection<Candidate> findAll() {
         return candidates.values();
     }

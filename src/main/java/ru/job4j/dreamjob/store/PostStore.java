@@ -31,6 +31,16 @@ public class PostStore implements Store<Post> {
         posts.put(post.getId(), post);
     }
 
+    @Override
+    public Post findById(int id) {
+        return posts.get(id);
+    }
+
+    @Override
+    public void update(Post post) {
+        posts.replace(post.getId(), post);
+    }
+
     public Collection<Post> findAll() {
         return posts.values();
     }
