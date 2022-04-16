@@ -23,6 +23,11 @@ public class CandidateStore implements Store<Candidate> {
     public static CandidateStore instOf() {
         return INST;
     }
+
+    public void add(Candidate candidate) {
+
+    }
+
     @Override
     public Collection<Candidate> findAll() {
         return candidates.values();

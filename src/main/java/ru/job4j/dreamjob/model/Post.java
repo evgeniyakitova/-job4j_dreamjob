@@ -9,8 +9,12 @@ public class Post {
     private int id;
     private String name;
     private String description;
-    @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime created;
+
+    public Post() {
+
+    }
 
     public Post(int id, String name, String description) {
         this.id = id;

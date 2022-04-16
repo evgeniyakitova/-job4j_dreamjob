@@ -4,4 +4,5 @@ import java.util.Collection;
 
 public interface Store<T> {
     Collection<T> findAll();
+    void add(T entity);
 }
