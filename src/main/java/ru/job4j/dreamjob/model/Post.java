@@ -12,6 +12,7 @@ public class Post {
     @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime created;
     private boolean visible;
+    private City city;
 
     public Post() {
 
@@ -26,6 +27,7 @@ public class Post {
     public Post(int id, String name, String description, LocalDateTime created) {
         this(id, name, description);
         this.created = created;
+        this.city = new City(1, "Москва");
     }
 
     public String getDescription() {
@@ -66,6 +68,14 @@ public class Post {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     @Override
