@@ -1,9 +1,12 @@
 package ru.job4j.dreamjob.service;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.store.CandidateStore;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 
 @Service
@@ -15,6 +18,13 @@ public class CandidateService {
     }
 
     public void add(Candidate candidate) {
+        if (candidate.getPhoto().length == 0) {
+            try (InputStream inputStream = new ClassPathResource("images/noavatar.jpg").getInputStream()) {
+                candidate.setPhoto(inputStream.readAllBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         store.add(candidate);
     }
 
@@ -23,6 +33,9 @@ public class CandidateService {
     }
 
     public void update(Candidate candidate) {
+        if (candidate.getPhoto().length == 0) {
+            candidate.setPhoto(store.findById(candidate.getId()).getPhoto());
+        }
         store.update(candidate);
     }
 

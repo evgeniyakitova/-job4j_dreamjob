@@ -40,7 +40,7 @@
                 Редактирование кандидата.
             </div>
             <div class="card-body">
-                <form th:action="@{/updateCandidate}" method="POST" th:object="${candidate}">
+                <form th:action="@{/updateCandidate}" method="POST" th:object="${candidate}" enctype="multipart/form-data">
                     <input type="hidden" th:field="*{id}"/>
                     <input type="hidden" th:field="*{created}"/>
                     <div class="form-group">
@@ -51,6 +51,11 @@
                     <div class="form-group">
                         <label>Характеристика
                             <input type="text" class="form-control" th:field="*{description}">
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Фото
+                            <input type="file" class="form-control" name="file">
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
