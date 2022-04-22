@@ -12,25 +12,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public class PostStore implements Store<Post> {
     private static final PostStore INST = new PostStore();
-    private static final AtomicInteger POST_ID = new AtomicInteger(3);
+    private static final AtomicInteger POST_ID = new AtomicInteger(0);
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
     private PostStore() {
-        LocalDateTime dateTime = LocalDateTime.now();
-        posts.put(1, new Post(1, "Junior Java Job", "desc1", dateTime));
-        posts.put(2, new Post(2, "Middle Java Job", "desc2", dateTime));
-        posts.put(3, new Post(3, "Senior Java Job", "desc3", dateTime));
     }
 
     public static PostStore instOf() {
         return INST;
     }
 
-    public void add(Post post) {
+    public Post add(Post post) {
         post.setId(POST_ID.incrementAndGet());
         post.setCreated(LocalDateTime.now());
         posts.put(post.getId(), post);
+        return post;
     }
 
     @Override

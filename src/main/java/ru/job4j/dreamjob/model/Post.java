@@ -24,10 +24,10 @@ public class Post {
         this.description = description;
     }
 
-    public Post(int id, String name, String description, LocalDateTime created) {
+    public Post(int id, String name, String description, LocalDateTime created, boolean visible) {
         this(id, name, description);
         this.created = created;
-        this.city = new City(1, "Москва");
+        this.visible = visible;
     }
 
     public String getDescription() {
