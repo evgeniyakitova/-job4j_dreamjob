@@ -14,3 +14,9 @@ CREATE TABLE candidate (
     created TIMESTAMP DEFAULT NOW(),
     photo bytea
 );
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR UNIQUE,
+    password TEXT
+);
