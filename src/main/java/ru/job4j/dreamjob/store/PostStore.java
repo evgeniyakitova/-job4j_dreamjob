@@ -6,6 +6,7 @@ import ru.job4j.dreamjob.model.Post;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,11 +24,11 @@ public class PostStore implements Store<Post> {
         return INST;
     }
 
-    public Post add(Post post) {
+    public Optional<Post> add(Post post) {
         post.setId(POST_ID.incrementAndGet());
         post.setCreated(LocalDateTime.now());
         posts.put(post.getId(), post);
-        return post;
+        return Optional.of(post);
     }
 
     @Override

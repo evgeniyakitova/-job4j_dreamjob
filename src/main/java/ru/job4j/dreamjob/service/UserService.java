@@ -17,7 +17,7 @@ public class UserService {
     }
 
     public Optional<User> add(User user) {
-        return Optional.ofNullable(userStore.add(user));
+        return userStore.add(user);
     }
 
     public User findById(int id) {

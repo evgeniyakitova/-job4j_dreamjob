@@ -5,6 +5,7 @@ import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.store.PostDBStore;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -16,8 +17,8 @@ public class PostService {
         this.cityService = cityService;
     }
 
-    public void add(Post post) {
-        store.add(post);
+    public Optional<Post> add(Post post) {
+        return store.add(post);
     }
 
     public Post findById(int id) {

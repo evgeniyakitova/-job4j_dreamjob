@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CandidateDBStore implements Store<Candidate> {
@@ -37,7 +38,8 @@ public class CandidateDBStore implements Store<Candidate> {
     }
 
     @Override
-    public Candidate add(Candidate candidate) {
+    public Optional<Candidate> add(Candidate candidate) {
+        Optional<Candidate> resultCandidate = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
                      "INSERT INTO candidate(name, description, photo) VALUES (?, ?, ?)",
@@ -50,12 +52,13 @@ public class CandidateDBStore implements Store<Candidate> {
                 if (resultSet.next()) {
                     candidate.setId(resultSet.getInt("id"));
                     candidate.setCreated(resultSet.getTimestamp("created").toLocalDateTime());
+                    resultCandidate = Optional.of(candidate);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return candidate;
+        return resultCandidate;
     }
 
     @Override

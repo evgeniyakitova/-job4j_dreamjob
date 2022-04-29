@@ -6,6 +6,7 @@ import ru.job4j.dreamjob.model.Candidate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,11 +24,11 @@ public class CandidateStore implements Store<Candidate> {
         return INST;
     }
 
-    public Candidate add(Candidate candidate) {
+    public Optional<Candidate> add(Candidate candidate) {
         candidate.setId(CANDIDATE_ID.incrementAndGet());
         candidate.setCreated(LocalDateTime.now());
         candidates.put(candidate.getId(), candidate);
-        return candidate;
+        return Optional.of(candidate);
     }
 
     @Override

@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserStore implements Store<User> {
@@ -38,7 +39,8 @@ public class UserStore implements Store<User> {
     }
 
     @Override
-    public User add(User user) {
+    public Optional<User> add(User user) {
+        Optional<User> resultUser = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("INSERT INTO users (email, password) values (?, ?)",
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -48,18 +50,13 @@ public class UserStore implements Store<User> {
             try (ResultSet resultSet = ps.getGeneratedKeys()) {
                 if (resultSet.next()) {
                     user.setId(resultSet.getInt("id"));
+                    resultUser = Optional.of(user);
                 }
             }
-        } catch (PSQLException pe) {
-                if ("23505".equals(pe.getSQLState())) {
-                    user = null;
-                } else {
-                    pe.printStackTrace();
-                }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
+        return resultUser;
     }
 
     @Override

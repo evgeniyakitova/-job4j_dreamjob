@@ -8,6 +8,7 @@ import ru.job4j.dreamjob.store.CandidateDBStore;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class CandidateService {
@@ -17,7 +18,7 @@ public class CandidateService {
         this.store = store;
     }
 
-    public void add(Candidate candidate) {
+    public Optional<Candidate> add(Candidate candidate) {
         if (candidate.getPhoto().length == 0) {
             try (InputStream inputStream = new ClassPathResource("images/noavatar.jpg").getInputStream()) {
                 candidate.setPhoto(inputStream.readAllBytes());
@@ -25,7 +26,7 @@ public class CandidateService {
                 e.printStackTrace();
             }
         }
-        store.add(candidate);
+        return store.add(candidate);
     }
 
     public Candidate findById(int id) {

@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PostDBStore implements Store<Post> {
@@ -35,7 +36,8 @@ public class PostDBStore implements Store<Post> {
     }
 
     @Override
-    public Post add(Post post) {
+    public Optional<Post> add(Post post) {
+        Optional<Post> resultPost = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
                      "INSERT INTO post(name, description, visible, city_id) VALUES (?, ?, ?, ?)",
@@ -50,12 +52,13 @@ public class PostDBStore implements Store<Post> {
                 if (resultSet.next()) {
                     post.setId(resultSet.getInt("id"));
                     post.setCreated(resultSet.getTimestamp("created").toLocalDateTime());
+                    resultPost = Optional.of(post);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return post;
+        return resultPost;
     }
 
     @Override
