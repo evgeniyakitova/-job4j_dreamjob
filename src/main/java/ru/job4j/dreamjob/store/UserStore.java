@@ -1,7 +1,6 @@
 package ru.job4j.dreamjob.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.User;
 
@@ -89,6 +88,24 @@ public class UserStore implements Store<User> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Optional<User> findUserByEmailAndPwd(String email, String password) {
+        Optional<User> resultUser = Optional.empty();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE email = ? AND password = ?")
+        ) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    resultUser = Optional.of(buildUser(resultSet));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultUser;
     }
 
     private User buildUser(ResultSet resultSet) throws SQLException {

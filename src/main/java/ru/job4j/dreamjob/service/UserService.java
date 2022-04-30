@@ -31,4 +31,8 @@ public class UserService {
     public Collection<User> findAll() {
         return userStore.findAll();
     }
+
+    public Optional<User> findUserByEmailAndPwd(String email, String password) {
+        return userStore.findUserByEmailAndPwd(email, password);
+    }
 }
