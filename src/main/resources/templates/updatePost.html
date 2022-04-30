@@ -31,6 +31,10 @@
                 <a class="nav-item nav-link active" th:href="@{/formAddPost}">Добавить вакансию</a>
                 <a class="nav-item nav-link" th:href="@{/candidates}">Кандидаты</a>
                 <a class="nav-item nav-link" th:href="@{/formAddCandidate}">Добавить кандидата</a>
+                <a class="nav-item nav-link" th:href="@{/logout}">
+                    <span th:text="${user.name}"></span>
+                    <span> | Выйти</span>
+                </a>
             </div>
         </div>
     </nav>
@@ -58,6 +62,7 @@
                         <select class="form-control" id="city.id" name="city.id">
                             <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}" th:selected="(${city.id} == *{city.id})"></option>
                         </select>
+                    </div>
                     <div class="form-check">
                         <input type="checkbox" name="visible" class="form-check-input" id="visible" th:checked="*{visible}">
                         <label class="form-check-label" for="visible">Опубликовать</label>

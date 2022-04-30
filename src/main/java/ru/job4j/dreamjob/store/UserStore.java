@@ -41,10 +41,11 @@ public class UserStore implements Store<User> {
     public Optional<User> add(User user) {
         Optional<User> resultUser = Optional.empty();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO users (email, password) values (?, ?)",
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO users (email, password, name) values (?, ?, ?)",
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
+            ps.setString(3, user.getName());
             ps.execute();
             try (ResultSet resultSet = ps.getGeneratedKeys()) {
                 if (resultSet.next()) {
@@ -80,10 +81,11 @@ public class UserStore implements Store<User> {
     public void update(User user) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "UPDATE users SET email = ?, password = ? WHERE id = ?")
+                     "UPDATE users SET email = ?, password = ?, name = ? WHERE id = ?")
         ) {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
+            ps.setString(3, user.getName());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,6 +113,7 @@ public class UserStore implements Store<User> {
     private User buildUser(ResultSet resultSet) throws SQLException {
         return new User(
                 resultSet.getInt("id"),
+                resultSet.getString("name"),
                 resultSet.getString("email"),
                 resultSet.getString("password")
         );
