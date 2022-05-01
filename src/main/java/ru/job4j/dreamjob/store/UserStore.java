@@ -86,6 +86,7 @@ public class UserStore implements Store<User> {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getName());
+            ps.setInt(4, user.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,9 +114,9 @@ public class UserStore implements Store<User> {
     private User buildUser(ResultSet resultSet) throws SQLException {
         return new User(
                 resultSet.getInt("id"),
-                resultSet.getString("name"),
                 resultSet.getString("email"),
-                resultSet.getString("password")
+                resultSet.getString("password"),
+                resultSet.getString("name")
         );
     }
 }
